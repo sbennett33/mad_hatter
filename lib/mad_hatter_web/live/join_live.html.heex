@@ -1,0 +1,13 @@
+<.form let={f} for={@changeset} as="fact" phx-submit="save">
+  <%= hidden_input f, :code %>
+
+  <%= label f, :name %>
+  <%= text_input f, :name %>
+  <%= error_tag f, :name %>
+
+  <%= label f, :fact %>
+  <%= text_input f, :fact %>
+  <%= error_tag f, :fact %>
+
+  <%= submit "Submit Fact" %>
+</.form>

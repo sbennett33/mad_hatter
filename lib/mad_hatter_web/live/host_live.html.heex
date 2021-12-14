@@ -1,0 +1,32 @@
+<h1>Game Code: <%= @code %></h1>
+
+<%= if @game.current_fact do %>
+  <% {_player, fact} = @game.current_fact %>
+  <h2>Current Round <%= @game.round_time_remaining / 1000 %> seconds remaining</h2>
+  <%= if @game.state == :round_over do %>
+    <h3>Round Over!</h3>
+  <% end %>
+  <p>Who said: <span><%= fact %></span>? </p>
+
+  <h3>Totals:</h3>
+
+  <%= for {k, v} <- @game.round_totals do %>
+    <%= k %>
+    <%= v %>
+  <% end %>
+<% end %>
+
+<hr>
+
+<%= if @game.state == :game_over do %>
+  <button phx-click="new_game">New Game</button>
+<% end %>
+<button phx-click="start_round">New Round</button>
+
+<h2>Players:</h2>
+
+<ul>
+  <%= for player <- @game.players do %>
+    <li><%= player %></li>
+  <% end %>
+ </ul>

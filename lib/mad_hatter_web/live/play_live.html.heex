@@ -1,0 +1,19 @@
+<%= @player %>
+
+<%= if @game.current_fact do %>
+  <% {_player, fact} = @game.current_fact %>
+  <h2>Current Round</h2>
+  <h3>Who said: <span><%= fact %></span>?</h3>
+<% end %>
+
+
+<%= if @game.state == :round_over || @game.state == :game_over do %>
+  <% {player, _fact} = @game.current_fact %>
+  <p>It was <%= player %>!</p>
+<% end %>
+
+<hr>
+
+<%= for guess <- @players do %>
+  <button phx-click="guess" phx-value-guess={guess} phx-value-guesser={@player}><%= guess %></button>
+<% end %>

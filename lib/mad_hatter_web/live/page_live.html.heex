@@ -1,0 +1,11 @@
+<h1>Hello World</h1>
+
+<button phx-click="new_game">New Game</button>
+
+<.form let={f} for={@changeset} as="join" phx-submit="save">
+  <%= label f, :code %>
+  <%= text_input f, :code %>
+  <%= error_tag f, :code %>
+
+  <%= submit "Join Existing Game" %>
+</.form>
