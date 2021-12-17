@@ -1,4 +1,16 @@
-<h1>Game Code: <%= @code %></h1>
+<div class="flex items-center mt-8">
+  <div>
+    <h1 class="text-3xl">Game Code: <%= @code %></h1>
+    <p class="mt-2 text-lg text-gray-600">Link to join: http://localhost:4001/join/<%= @code %></p>
+  </div>
+  <div class="ml-8">
+    <%= if @game.state == :game_over do %>
+      <button phx-click="new_game" class="px-4 py-2 bg-indigo-700">New Game</button>
+    <% else %>
+      <button phx-click="start_round" class="px-4 py-2 mt-2 font-bold text-white rounded-lg bg-violet-700">New Round</button>
+    <% end %>
+  </div>
+</div>
 
 <%= if @game.current_fact do %>
   <% {_player, fact} = @game.current_fact %>
@@ -16,12 +28,10 @@
   <% end %>
 <% end %>
 
-<hr>
+<div class="py-4">
+  <hr>
+</div>
 
-<%= if @game.state == :game_over do %>
-  <button phx-click="new_game">New Game</button>
-<% end %>
-<button phx-click="start_round">New Round</button>
 
 <h2>Players:</h2>
 
