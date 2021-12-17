@@ -34,7 +34,7 @@ defmodule MadHatter.MixProject do
   defp deps do
     [
       {:ecto, "~> 3.7"},
-      {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.4.0", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.18"},
       {:horde, "~> 0.8.5"},
