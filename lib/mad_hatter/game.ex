@@ -17,7 +17,11 @@ defmodule MadHatter.Game do
   end
 
   def submit_fact(game, player, fact) do
-    %{game | hat: [{player, fact} | game.hat], players: [player | game.players]}
+    if !player_found?(game, player) do
+      %{game | hat: [{player, fact} | game.hat], players: [player | game.players]}
+    else
+      game
+    end
   end
 
   def new_round(%{hat: []}), do: {:error, :empty_hat}
@@ -81,5 +85,9 @@ defmodule MadHatter.Game do
   def tick(%{round_time_remaining: time} = game) do
     Process.send_after(self(), :tick, 1000)
     %{game | round_time_remaining: time - 1000}
+  end
+
+  def player_found?(%{players: players}, player) do
+    Enum.member?(players, player)
   end
 end

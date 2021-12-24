@@ -1,42 +1,88 @@
-<div class="flex items-center mt-8">
-  <div>
-    <h1 class="text-3xl">Game Code: <%= @code %></h1>
-    <p class="mt-2 text-lg text-gray-600">Link to join: http://localhost:4001/join/<%= @code %></p>
+<%= cond do %>
+<% @game.state == :not_started -> %>
+  <div class="mt-16 shadow card lg:card-side bordered">
+    <div class="card-body">
+      <h2 class="card-title">Getting Started</h2>
+      <p>In order to get started, you need players to join!</p>
+      <p class="mt-2">You can share the link below to let players easily join this game or they can use the game code to join from the homepage.</p>
+      <p class="mt-2">Once you have at least 3 players, you can start a round using the "New Round" button.</p>
+      <p class="mt-2">Game Code: <%= @code %></p>
+      <p>Link to join: <pre class="inline"><%= Routes.join_url(@socket, :show, @code) %></pre></p>
+      <div class="card-actions">
+        <button phx-click="start_round" class="btn btn-primary" disabled={length(@game.players) < 3}>New Round</button>
+      </div>
+    </div>
   </div>
-  <div class="ml-8">
-    <%= if @game.state == :game_over do %>
-      <button phx-click="new_game" class="px-4 py-2 bg-indigo-700">New Game</button>
-    <% else %>
-      <button phx-click="start_round" class="px-4 py-2 mt-2 font-bold text-white rounded-lg bg-violet-700">New Round</button>
-    <% end %>
+<% @game.state == :round_running -> %>
+  <div class="mt-16 shadow card lg:card-side bordered">
+    <div class="card-body">
+      <h2 class="card-title">Time Remaining: <span class="font-mono countdown"><span style={"--value: #{@game.round_time_remaining / 1000};"}></span></span></h2>
+      <p>Who said...</p>
+      <% {_current_player, current_fact} = @game.current_fact %>
+      <p class="mt-2"><%= current_fact %></p>
+      <div class="card-actions">
+        <button phx-click="start_round" class="btn btn-primary" disabled>New Round</button>
+      </div>
+    </div>
   </div>
-</div>
-
-<%= if @game.current_fact do %>
-  <% {_player, fact} = @game.current_fact %>
-  <h2>Current Round <%= @game.round_time_remaining / 1000 %> seconds remaining</h2>
-  <%= if @game.state == :round_over do %>
-    <h3>Round Over!</h3>
-  <% end %>
-  <p>Who said: <span><%= fact %></span>? </p>
-
-  <h3>Totals:</h3>
-
-  <%= for {k, v} <- @game.round_totals do %>
-    <%= k %>
-    <%= v %>
-  <% end %>
+<% @game.state == :round_over && length(@game.hat) > 0 -> %>
+  <div class="mt-16 shadow card lg:card-side bordered">
+    <div class="card-body">
+      <h2 class="card-title">It was...</h2>
+      <% {current_player, _current_fact} = @game.current_fact %>
+      <p class="mt-2"><%= current_player %></p>
+      <div class="card-actions">
+        <button phx-click="start_round" class="btn btn-primary">New Round</button>
+      </div>
+    </div>
+  </div>
+<% @game.hat == [] -> %>
+  <div class="mt-16 shadow card lg:card-side bordered">
+    <div class="card-body">
+      <h2 class="card-title">It was...</h2>
+      <% {current_player, _current_fact} = @game.current_fact %>
+      <p class="mt-2"><%= current_player %></p>
+      <p class="mt-2">Game Over</p>
+      <div class="card-actions">
+        <button phx-click="new_game" class="btn btn-primary">New Game</button>
+      </div>
+    </div>
+  </div>
 <% end %>
 
-<div class="py-4">
-  <hr>
-</div>
 
-
-<h2>Players:</h2>
-
-<ul>
-  <%= for player <- @game.players do %>
-    <li><%= player %></li>
-  <% end %>
- </ul>
+<%= if @game.players == [] do %>
+  <div class="mt-4 shadow card bordered">
+    <div class="card-body">
+      <span class="flex items-center">
+        Waiting for players
+        <svg class="w-5 h-5 ml-3 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </span>
+    </div>
+  </div>
+<% else %>
+  <h2 class="mt-6 text-lg font-semibold">Players</h2>
+  <div class="mt-4 overflow-x-auto">
+    <table class="table w-full table-auto">
+      <col style="width:10%">
+      <col style="width:90%">
+      <thead>
+        <tr>
+          <th class="text-center">Guesses</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for player <- sorted_players(@game.players, @game.round_totals) do %>
+          <tr>
+            <th class="text-center"><%= @game.round_totals[player] || 0 %></th>
+            <td><%= player %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

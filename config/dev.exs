@@ -19,9 +19,10 @@ config :mad_hatter, MadHatterWeb.Endpoint,
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     npx: [
       "tailwindcss",
-      "--input=css/app.css",
-      "--output=../priv/static/assets/app.css",
-      "--postcss",
+      "-i",
+      "./css/app.css",
+      "-o",
+      "../priv/static/assets/app.css",
       "--watch",
       cd: Path.expand("../assets", __DIR__)
     ]

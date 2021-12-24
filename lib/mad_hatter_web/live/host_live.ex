@@ -38,4 +38,8 @@ defmodule MadHatterWeb.HostLive do
   def handle_info({:game, game}, socket) do
     {:noreply, assign(socket, game: game)}
   end
+
+  def sorted_players(players, totals) do
+    Enum.sort(players, &(totals[&1] > totals[&2]))
+  end
 end

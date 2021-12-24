@@ -1,0 +1,33 @@
+# MadHatter
+
+## Section
+
+```elixir
+alias MadHatter.GameServer
+
+code = "YFAM"
+
+GameServer.current_state(code)
+```
+
+```elixir
+GameServer.submit_fact(code, "Scott", "I like blue")
+GameServer.submit_fact(code, "Fred", "I like red")
+GameServer.submit_fact(code, "George", "I like green")
+GameServer.submit_fact(code, "Hermoine", "I like yellow")
+GameServer.submit_fact(code, "Audrey", "I like purple")
+GameServer.submit_fact(code, "Mia", "I like brown")
+```
+
+```elixir
+GameServer.guess(code, "Mia", "Hermoine")
+GameServer.guess(code, "Scott", "George")
+GameServer.guess(code, "Fred", "Fred")
+GameServer.guess(code, "George", "Fred")
+GameServer.guess(code, "Hermoine", "Mia")
+GameServer.guess(code, "Audrey", "Scott")
+GameServer.guess(code, "Mia", "Audrey")
+GameServer.guess(code, "Scott", "Mia")
+GameServer.guess(code, "Fred", "Audrey")
+GameServer.guess(code, "George", "Fred")
+```
