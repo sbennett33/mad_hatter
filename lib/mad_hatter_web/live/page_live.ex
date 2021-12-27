@@ -24,10 +24,9 @@ defmodule MadHatterWeb.PageLive do
      |> redirect(to: Routes.host_path(socket, :show, code))}
   end
 
-  def handle_event("save", %{"join" => %{"code" => code}}, socket) do
-    {:noreply,
-     socket
-     #  |> put_flash(:info, "user updated")
-     |> redirect(to: Routes.join_path(socket, :show, code))}
+  def handle_event("save", %{"join" => %{"code" => code, "name" => name, "fact" => fact}}, socket) do
+    :ok = GameServer.submit_fact(code, name, fact)
+
+    {:noreply, redirect(socket, to: Routes.play_path(socket, :show, code, player: name))}
   end
 end

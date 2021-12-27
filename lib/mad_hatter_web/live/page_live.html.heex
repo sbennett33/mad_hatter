@@ -6,20 +6,24 @@
   </div>
   <div class="divider divider-vertical">OR</div>
   <div class="grid flex-grow h-80 place-items-center">
-    <.form let={f} for={@changeset} as="join" phx-submit="save">
-      <%= label f, :code, class: "block font-bold" %>
-      <%= text_input f, :code, class: "mt-1 w-full rounded-md" %>
-      <%= error_tag f, :code %>
+    <div class="shadow-lg card bg-base-100 compact">
+      <div class="card-body">
+        <.form let={f} for={@changeset} as="join" phx-submit="save">
+          <%= label f, :code, class: "block font-bold" %>
+          <%= text_input f, :code, class: "mt-1 w-full rounded-md text-base-300" %>
+          <%= error_tag f, :code %>
 
-      <%= label f, :name, "Full Name", class: "mt-2 block font-bold" %>
-      <%= text_input f, :name, class: "mt-1 w-full rounded-md" %>
-      <%= error_tag f, :name %>
+          <%= label f, :name, "Full Name", class: "mt-2 block font-bold" %>
+          <%= text_input f, :name, class: "mt-1 w-full rounded-md text-base-300" %>
+          <%= error_tag f, :name %>
 
-      <%= label f, :fact, "Fun Fact", class: " mt-2 block font-bold" %>
-      <%= text_input f, :fact, class: "mt-1 w-full rounded-md" %>
-      <%= error_tag f, :fact %>
+          <%= label f, :fact, "Fun Fact", class: " mt-2 block font-bold" %>
+          <%= text_input f, :fact, class: "mt-1 w-full rounded-md text-base-300" %>
+          <%= error_tag f, :fact %>
 
-      <%= submit "Join Existing Game", class: "btn btn-primary mt-4" %>
-    </.form>
+          <%= submit "Join Existing Game", class: "btn btn-primary mt-4" %>
+        </.form>
+      </div>
+    </div>
   </div>
 </div>

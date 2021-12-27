@@ -1,6 +1,6 @@
 <%= cond do %>
 <% @game.state == :not_started -> %>
-  <div class="mt-16 shadow card lg:card-side bordered">
+  <div class="mt-16 shadow-lg card lg:card-side bordered bg-base-100">
     <div class="card-body">
       <h2 class="card-title">Getting Started</h2>
       <p>In order to get started, you need players to join!</p>
@@ -14,7 +14,7 @@
     </div>
   </div>
 <% @game.state == :round_running -> %>
-  <div class="mt-16 shadow card lg:card-side bordered">
+  <div class="mt-16 shadow-lg card lg:card-side bordered bg-base-100">
     <div class="card-body">
       <h2 class="card-title">Time Remaining: <span class="font-mono countdown"><span style={"--value: #{@game.round_time_remaining / 1000};"}></span></span></h2>
       <p>Who said...</p>
@@ -26,7 +26,7 @@
     </div>
   </div>
 <% @game.state == :round_over && length(@game.hat) > 0 -> %>
-  <div class="mt-16 shadow card lg:card-side bordered">
+  <div class="mt-16 shadow-lg card lg:card-side bordered bg-base-100">
     <div class="card-body">
       <h2 class="card-title">It was...</h2>
       <% {current_player, _current_fact} = @game.current_fact %>
@@ -37,7 +37,7 @@
     </div>
   </div>
 <% @game.hat == [] -> %>
-  <div class="mt-16 shadow card lg:card-side bordered">
+  <div class="mt-16 shadow-lg card lg:card-side bordered bg-base-100">
     <div class="card-body">
       <h2 class="card-title">It was...</h2>
       <% {current_player, _current_fact} = @game.current_fact %>
@@ -52,7 +52,7 @@
 
 
 <%= if @game.players == [] do %>
-  <div class="mt-4 shadow card bordered">
+  <div class="mt-4 shadow-lg card bordered bg-base-100">
     <div class="card-body">
       <span class="flex items-center">
         Waiting for players
