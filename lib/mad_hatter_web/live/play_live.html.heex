@@ -1,19 +1,66 @@
-<%= @player %>
+<h1 class="py-4 mt-8 text-2xl font-bold">Welcome <%= @player %>!</h1>
 
-<%= if @game.current_fact do %>
-  <% {_player, fact} = @game.current_fact %>
-  <h2>Current Round</h2>
-  <h3>Who said: <span><%= fact %></span>?</h3>
+
+<%= cond do %>
+<% @game.state == :not_started -> %>
+  <div class="mt-4 shadow-lg card lg:card-side bordered bg-base-100">
+    <div class="card-body">
+      <span class="flex items-center">
+        Waiting for game to start
+        <svg class="w-5 h-5 ml-3 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </span>
+    </div>
+  </div>
+<% @game.state == :round_running -> %>
+  <div class="mt-4 shadow-lg card lg:card-side bordered bg-base-100">
+    <div class="card-body">
+      <h2 class="card-title">Time Remaining: <span class="font-mono countdown"><span style={"--value: #{@game.round_time_remaining / 1000};"}></span></span></h2>
+      <p class="text-lg">Who said...</p>
+      <% {_current_player, current_fact} = @game.current_fact %>
+      <p class="mt-2 text-2xl font-bold text-accent"><%= current_fact %></p>
+    </div>
+  </div>
+<% @game.state == :round_over && length(@game.hat) > 0 -> %>
+  <div class="mt-4 shadow-lg card lg:card-side bordered bg-base-100">
+    <div class="card-body">
+      <h2 class="card-title">It was...</h2>
+      <% {current_player, _current_fact} = @game.current_fact %>
+      <p class="mt-2 text-2xl font-bold text-accent"><%= current_player %>!</p>
+    </div>
+  </div>
+<% @game.hat == [] -> %>
+  <div class="mt-4 shadow-lg card lg:card-side bordered bg-base-100">
+    <div class="card-body">
+      <h2 class="card-title">It was...</h2>
+      <% {current_player, _current_fact} = @game.current_fact %>
+      <p class="mt-2 text-2xl font-bold text-accent"><%= current_player %>!</p>
+    </div>
+  </div>
 <% end %>
 
-
-<%= if @game.state == :round_over || @game.state == :game_over do %>
-  <% {player, _fact} = @game.current_fact %>
-  <p>It was <%= player %>!</p>
-<% end %>
-
-<hr>
-
-<%= for guess <- @players do %>
-  <button phx-click="guess" phx-value-guess={guess} phx-value-guesser={@player}><%= guess %></button>
+<%= if @players == [] do %>
+  <div class="mt-4 shadow-lg card bordered bg-base-100">
+    <div class="card-body">
+      <span class="flex items-center">
+        Waiting for other players
+        <svg class="w-5 h-5 ml-3 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </span>
+    </div>
+  </div>
+<% else %>
+  <div class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 lg:grid-cols-3">
+    <%= for guess <- @players do %>
+      <div class="shadow-lg card compact bg-secondary text-secondary-content">
+        <div class="card-body">
+          <button phx-click="guess" phx-value-guess={guess} phx-value-guesser={@player} class="font-bold btn btn-secondary"><%= guess %></button>
+        </div>
+      </div>
+    <% end %>
+  </div>
 <% end %>

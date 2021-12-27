@@ -10,15 +10,15 @@
       <div class="card-body">
         <.form let={f} for={@changeset} as="join" phx-submit="save">
           <%= label f, :code, class: "block font-bold" %>
-          <%= text_input f, :code, class: "mt-1 w-full rounded-md text-base-300" %>
+          <%= text_input f, :code, class: "mt-1 w-full rounded-md text-secondary-content" %>
           <%= error_tag f, :code %>
 
           <%= label f, :name, "Full Name", class: "mt-2 block font-bold" %>
-          <%= text_input f, :name, class: "mt-1 w-full rounded-md text-base-300" %>
+          <%= text_input f, :name, class: "mt-1 w-full rounded-md text-secondary-content" %>
           <%= error_tag f, :name %>
 
           <%= label f, :fact, "Fun Fact", class: " mt-2 block font-bold" %>
-          <%= text_input f, :fact, class: "mt-1 w-full rounded-md text-base-300" %>
+          <%= text_input f, :fact, class: "mt-1 w-full rounded-md text-secondary-content" %>
           <%= error_tag f, :fact %>
 
           <%= submit "Join Existing Game", class: "btn btn-primary mt-4" %>

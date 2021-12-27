@@ -6,8 +6,8 @@
       <p>In order to get started, you need players to join!</p>
       <p class="mt-2">You can share the link below to let players easily join this game or they can use the game code to join from the homepage.</p>
       <p class="mt-2">Once you have at least 3 players, you can start a round using the "New Round" button.</p>
-      <p class="mt-2">Game Code: <%= @code %></p>
-      <p>Link to join: <pre class="inline"><%= Routes.join_url(@socket, :show, @code) %></pre></p>
+      <p class="mt-2 text-2xl">Game Code: <span class="text-secondary"><%= @code %></span></p>
+      <p class="mt-2 text-xl">Link to join: <code class="inline text-accent"><%= Routes.join_url(@socket, :show, @code) %></code></p>
       <div class="card-actions">
         <button phx-click="start_round" class="btn btn-primary" disabled={length(@game.players) < 3}>New Round</button>
       </div>
@@ -19,7 +19,7 @@
       <h2 class="card-title">Time Remaining: <span class="font-mono countdown"><span style={"--value: #{@game.round_time_remaining / 1000};"}></span></span></h2>
       <p>Who said...</p>
       <% {_current_player, current_fact} = @game.current_fact %>
-      <p class="mt-2"><%= current_fact %></p>
+      <p class="mt-2 text-2xl font-bold text-accent"><%= current_fact %></p>
       <div class="card-actions">
         <button phx-click="start_round" class="btn btn-primary" disabled>New Round</button>
       </div>
@@ -30,7 +30,7 @@
     <div class="card-body">
       <h2 class="card-title">It was...</h2>
       <% {current_player, _current_fact} = @game.current_fact %>
-      <p class="mt-2"><%= current_player %></p>
+      <p class="mt-2 text-2xl font-bold text-accent"><%= current_player %>!</p>
       <div class="card-actions">
         <button phx-click="start_round" class="btn btn-primary">New Round</button>
       </div>
@@ -41,8 +41,8 @@
     <div class="card-body">
       <h2 class="card-title">It was...</h2>
       <% {current_player, _current_fact} = @game.current_fact %>
-      <p class="mt-2"><%= current_player %></p>
-      <p class="mt-2">Game Over</p>
+      <p class="mt-2 text-2xl font-bold text-accent"><%= current_player %></p>
+      <p class="mt-4 text-2xl font-bold text-secondary">Game Over</p>
       <div class="card-actions">
         <button phx-click="new_game" class="btn btn-primary">New Game</button>
       </div>
