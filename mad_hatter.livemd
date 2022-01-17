@@ -5,7 +5,7 @@
 ```elixir
 alias MadHatter.GameServer
 
-code = "VYEJ"
+code = "HSBK"
 
 GameServer.current_state(code)
 ```
