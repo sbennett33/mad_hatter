@@ -41,6 +41,29 @@
   </div>
 <% end %>
 
+<%= if @game.state == :round_running && @game.guesses[@player] != nil do %>
+  <div class="mt-4 shadow-lg card bordered bg-base-100">
+    <div class="card-body">
+      <p class="text-lg">
+        Your guess:&nbsp<span class="font-bold"><%= @game.guesses[@player] %></span>
+      </p>
+    </div>
+  </div>
+<% end %>
+
+<%= if @game.state == :game_over do %>
+  <div class="mt-4 shadow-lg card bordered bg-base-100">
+    <div class="card-body">
+      <p class="text-2xl font-bold text-secondary">
+        Game Over!
+      </p>
+      <p class="mt-2">
+        Please wait for host to start a new game.
+      </p>
+    </div>
+  </div>
+<% end %>
+
 <%= if @players == [] do %>
   <div class="mt-4 shadow-lg card bordered bg-base-100">
     <div class="card-body">
